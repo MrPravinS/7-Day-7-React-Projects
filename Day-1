@@ -1,0 +1,96 @@
+import React, { useState } from 'react'  //rafce short cmd
+import ReactSwitch from 'react-switch'
+
+const PasswordGenerator = () => {
+  const [password, setPassword] = useState("");
+
+  const [passwordLength,setpasswordLength] = useState(8);
+  const [includeUpperCase,setIncludeUpperCase] = useState(true);
+  const [includeNumber,setIncludeNumber] = useState(true);
+  const [includeSpecialChars,setSpeacialChars] = useState(true)
+
+
+
+   const generatePassword = () =>{
+    const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numbers = '1234567890';
+    const speacialChars = '!@#$%^&*()';
+
+    let validChars = lowerCaseChars;
+
+    if(includeUpperCase){
+        validChars += upperCaseChars;
+    }if(includeNumber){
+        validChars += numbers;
+    }if(includeSpecialChars){
+        validChars += speacialChars;
+    }
+    
+
+    let generatePassword = "";
+
+    for(let i = 0; i < passwordLength; i++){
+        const randomIndex = Math.floor(Math.random()*validChars.length)
+        generatePassword += validChars.charAt(randomIndex)
+
+    }
+    // console.log(generatePassword);
+    
+
+    setPassword(generatePassword)
+   }
+
+
+
+  return (
+    <div className='pt-8 text-white font-bold'>
+        <div className= 'flex flex-col items-center'>
+
+        <div className='bg-purple-800 w-[350px shadow-2xl hover:shadow-blue-900 rounded-md'>
+        <div className='m-4 flex items-center justify-between'>
+            <label >Password length:</label>
+            <input 
+            value={passwordLength}
+            onChange={(e)=> setpasswordLength(e.target.value)}
+            className='w-12 bg-purple-700 pl-2'
+            type='number'/>
+        </div>
+        <div className='m-4 flex items-center justify-between'>
+            <label >Include upperCase:</label>
+           <ReactSwitch
+           checked={includeUpperCase}
+           onChange={()=>setIncludeUpperCase(!includeUpperCase)}
+           height={20}
+           width={40}
+           handleDiameter={18}/>
+        </div>
+        <div className='m-4 flex items-center justify-between'>
+            <label >Include Numbers:</label>
+           <ReactSwitch 
+           checked={includeNumber}
+           onChange={()=>setIncludeNumber(!includeNumber)}
+           height={20}
+           width={40}
+           handleDiameter={18}/>
+        </div>
+        <div className='m-4 flex items-center justify-between'>
+            <label >Include Speacial Character:</label>
+           <ReactSwitch checked={includeSpecialChars}
+           onChange={()=>setSpeacialChars(!includeSpecialChars)}
+           height={20}
+           width={40}
+           handleDiameter={18}/>
+        </div>
+        <button onClick={generatePassword} className='bg-blue-500 px-2 py-1 rounded-full m-2 font-bold hover:blue-900'>Generate Password</button>
+        </div>
+        <div className='mt-4'>
+        <h1 className='text-'>Generated Password</h1>
+        <p className='bg-gray-200 text-black px-3 py-3 rounded'>{password}</p>
+        </div>
+        </div>
+    </div>
+  )
+}
+
+export default PasswordGenerator
